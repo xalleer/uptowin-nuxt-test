@@ -6,23 +6,26 @@
           <th>Name</th>
           <th>Email</th>
 
-          <th @click="$emit('sort', 'age')">
+          <th class="sortable" @click="$emit('sort', 'age')">
             Age
+            <span v-if="sortBy === 'age'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
           </th>
 
           <th>Role</th>
 
-          <th @click="$emit('sort', 'createdAt')">
+          <th class="sortable" @click="$emit('sort', 'createdAt')">
             Created
+            <span v-if="sortBy === 'createdAt'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
           </th>
         </tr>
       </thead>
 
       <tbody>
-        <tr
-          v-for="user in users"
-          :key="user.id"
-        >
+        <tr v-for="user in users" :key="user.id">
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.age }}</td>
@@ -36,15 +39,19 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  users: {
-    type: Array,
-    required: true,
-  },
-})
+<script setup lang="ts">
+import type { User } from '~/models/user'
+import type { SortField, SortDirection } from '~/composables/useUsersTable'
 
-defineEmits(['sort'])
+defineProps<{
+  users: User[]
+  sortBy?: SortField | null
+  sortDirection?: SortDirection
+}>()
+
+defineEmits<{
+  (e: 'sort', field: SortField): void
+}>()
 </script>
 
 <style scoped>
@@ -57,6 +64,10 @@ thead th {
   position: sticky;
   top: 0;
   background: #fff;
+}
+
+thead th.sortable {
   cursor: pointer;
+  user-select: none;
 }
 </style>

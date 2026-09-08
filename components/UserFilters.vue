@@ -2,36 +2,40 @@
   <div class="filters">
     <input
       :value="search"
-      @input="$emit('update:search', $event.target.value)"
       placeholder="Search by name or email"
+      @input="$emit('update:search', ($event.target as HTMLInputElement).value)"
     />
 
     <BaseSelect
       :model-value="role"
-      @update:model-value="$emit('update:role', $event)"
-      :options="['admin', 'manager', 'user']"
+      placeholder="All Roles"
+      :options="[Roles.ADMIN, Roles.MANAGER, Roles.USER]"
+      @update:model-value="$emit('update:role', $event ?? null)"
     />
 
     <BaseSelect
       :model-value="perPage"
-      @update:model-value="$emit('update:perPage', Number($event))"
+      placeholder="All"
       :options="[10, 15, 20]"
+      @update:model-value="$emit('update:perPage', $event ? Number($event) : null)"
     />
   </div>
 </template>
 
-<script setup>
-defineProps({
-  search: String,
-  role: String,
-  perPage: Number,
-})
+<script setup lang="ts">
+import { Roles, type UserRole } from '~/models/user'
 
-defineEmits([
-  'update:search',
-  'update:role',
-  'update:perPage',
-])
+defineProps<{
+  search?: string
+  role?: UserRole | null
+  perPage?: number | null
+}>()
+
+defineEmits<{
+  (e: 'update:search', value: string): void
+  (e: 'update:role', value: UserRole | null): void
+  (e: 'update:perPage', value: number | null): void
+}>()
 </script>
 
 <style scoped>

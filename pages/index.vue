@@ -2,59 +2,48 @@
   <UserFilters
     :search="search"
     :role="role"
-    :perPage="perPage"
+    :per-page="perPage"
     @update:search="search = $event"
     @update:role="role = $event"
-    @update:perPage="perPage = $event"
+    @update:per-page="onPerPageChange($event)"
   />
 
   <UserTable
     :users="paginatedUsers"
+    :sort-by="sortBy"
+    :sort-direction="sortDirection"
     @sort="onSort"
   />
 
   <div class="pagination">
-    <button
-      @click="page--"
-      :disabled="page === 1"
-    >
-      Prev
-    </button>
+    <button :disabled="page <= 1" @click="page--">Prev</button>
 
     <span>{{ page }} / {{ totalPages }}</span>
 
-    <button
-      @click="page++"
-      :disabled="page === totalPages"
-    >
-      Next
-    </button>
+    <button :disabled="page >= totalPages || totalPages === 0" @click="page++">Next</button>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { users } from '~/data/users'
-import { useUsersTable } from '~/composables/useUsersTable'
+import { useUsersTable, type SortField } from '~/composables/useUsersTable'
 
-const {
-  search,
-  role,
-  sortBy,
-  sortDirection,
-  page,
-  perPage,
-  paginatedUsers,
-  totalPages,
-} = useUsersTable(users)
+const { search, role, sortBy, sortDirection, page, perPage, paginatedUsers, totalPages } =
+  useUsersTable(users)
 
-function onSort(field) {
+const onSort = (field: SortField) => {
   if (sortBy.value === field) {
-    sortDirection.value =
-      sortDirection.value === 'asc' ? 'desc' : 'asc'
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
   } else {
     sortBy.value = field
     sortDirection.value = 'asc'
   }
+  page.value = 1
+}
+
+const onPerPageChange = (value: number | null) => {
+  perPage.value = value ? Number(value) : null
+  page.value = 1
 }
 </script>
 
