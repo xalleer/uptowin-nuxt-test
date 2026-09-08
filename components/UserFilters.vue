@@ -1,10 +1,6 @@
 <template>
   <div class="filters">
-    <input
-      :value="search"
-      placeholder="Search by name or email"
-      @input="$emit('update:search', ($event.target as HTMLInputElement).value)"
-    />
+    <input v-model="searchInput" placeholder="Search by name or email" />
 
     <BaseSelect
       :model-value="role"
@@ -23,19 +19,40 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import { debounce } from 'perfect-debounce'
 import { Roles, type UserRole } from '~/models/user'
 
-defineProps<{
+const props = defineProps<{
   search?: string
   role?: UserRole | null
   perPage?: number | null
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'update:search', value: string): void
   (e: 'update:role', value: UserRole | null): void
   (e: 'update:perPage', value: number | null): void
 }>()
+
+const searchInput = ref(props.search ?? '')
+
+const debouncedEmitSearch = debounce((value: string) => {
+  emit('update:search', value)
+}, 300)
+
+watch(searchInput, (newVal) => {
+  debouncedEmitSearch(newVal)
+})
+
+watch(
+  () => props.search,
+  (newVal) => {
+    if (newVal !== searchInput.value) {
+      searchInput.value = newVal ?? ''
+    }
+  },
+)
 </script>
 
 <style scoped>

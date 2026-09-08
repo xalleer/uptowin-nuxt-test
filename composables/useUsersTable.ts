@@ -1,4 +1,5 @@
 import type { User, UserRole } from '~/models/user'
+import { debounce } from 'perfect-debounce'
 
 export type SortField = 'age' | 'createdAt'
 export type SortDirection = 'asc' | 'desc'
@@ -42,11 +43,11 @@ export function useUsersTable(users: User[]) {
   })
   const totalPages = computed(() => {
     if (!perPage.value) return 1
-    return Math.ceil(sortedUsers.value.length / perPage.value)
+    return Math.max(1, Math.ceil(sortedUsers.value.length / perPage.value))
   })
 
   const filteredUsers = computed(() => {
-    const query = search.value.toLowerCase()
+    const query = search.value.trim().toLowerCase()
 
     return users.filter((user) => {
       const matchesRole = !role.value || user.role === role.value
