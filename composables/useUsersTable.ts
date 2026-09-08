@@ -16,22 +16,20 @@ export function useUsersTable(users: User[]) {
   const page = ref(1)
   const perPage = ref<number | null>(10)
 
-  // TODO:
-  // - filteredUsers
   const sortedUsers = computed(() => {
-    if (!sortBy.value) return users
+    if (!sortBy.value) return filteredUsers.value
     if (sortBy.value === 'age') {
-      return [...users].sort((a, b) =>
+      return [...filteredUsers.value].sort((a, b) =>
         sortDirection.value === 'asc' ? a.age - b.age : b.age - a.age,
       )
     } else if (sortBy.value === 'createdAt') {
-      return [...users].sort((a, b) => {
+      return [...filteredUsers.value].sort((a, b) => {
         const timeA = new Date(a.createdAt).getTime()
         const timeB = new Date(b.createdAt).getTime()
         return sortDirection.value === 'asc' ? timeA - timeB : timeB - timeA
       })
     } else {
-      return users
+      return filteredUsers.value
     }
   })
 
@@ -45,6 +43,19 @@ export function useUsersTable(users: User[]) {
   const totalPages = computed(() => {
     if (!perPage.value) return 1
     return Math.ceil(sortedUsers.value.length / perPage.value)
+  })
+
+  const filteredUsers = computed(() => {
+    const query = search.value.toLowerCase()
+
+    return users.filter((user) => {
+      const matchesRole = !role.value || user.role === role.value
+      const matchesSearch =
+        !query ||
+        user.name.toLowerCase().includes(query) ||
+        user.email.toLowerCase().includes(query)
+      return matchesRole && matchesSearch
+    })
   })
 
   watch(totalPages, (newTotalPages) => {
