@@ -12,7 +12,7 @@
     <BaseSelect
       :model-value="perPage"
       placeholder="All"
-      :options="[10, 15, 20]"
+      :options="PAGINATION_LIMIT_OPTIONS"
       @update:model-value="$emit('update:perPage', $event ? Number($event) : null)"
     />
   </div>
@@ -22,6 +22,7 @@
 import { ref, watch } from 'vue'
 import { debounce } from 'perfect-debounce'
 import { Roles, type UserRole } from '~/models/user'
+import { PAGINATION_LIMIT_OPTIONS } from '~/contants/pagination'
 
 const props = defineProps<{
   search?: string

@@ -28,6 +28,7 @@
 import { users } from '~/data/users'
 import { useUsersTable, type SortField } from '~/composables/useUsersTable'
 import type { UserRole } from '~/models/user'
+import { DEFAULT_PAGINATION_PAGE } from '~/contants/pagination.ts'
 
 const { search, role, sortBy, sortDirection, page, perPage, paginatedUsers, totalPages } =
   useUsersTable(users)
@@ -39,21 +40,21 @@ const onSort = (field: SortField) => {
     sortBy.value = field
     sortDirection.value = 'asc'
   }
-  page.value = 1
+  page.value = DEFAULT_PAGINATION_PAGE
 }
 
 const onPerPageChange = (value: number | null) => {
   perPage.value = value ? Number(value) : null
-  page.value = 1
+  page.value = DEFAULT_PAGINATION_PAGE
 }
 
 const onSearch = (value: string) => {
-  page.value = 1
+  page.value = DEFAULT_PAGINATION_PAGE
   search.value = value
 }
 
 const onChangeRole = (r: UserRole | null) => {
-  page.value = 1
+  page.value = DEFAULT_PAGINATION_PAGE
   role.value = r
 }
 </script>
