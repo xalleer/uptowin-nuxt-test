@@ -1,26 +1,22 @@
 <template>
-  <UserFilters
-    :search="search"
-    :role="role"
-    :per-page="perPage"
-    @update:search="onSearch($event)"
-    @update:role="onChangeRole($event)"
-    @update:per-page="onPerPageChange($event)"
-  />
+  <div class="container">
+    <UserFilters
+      :search="search"
+      :role="role"
+      :per-page="perPage"
+      @update:search="onSearch($event)"
+      @update:role="onChangeRole($event)"
+      @update:per-page="onPerPageChange($event)"
+    />
 
-  <UserTable
-    :users="paginatedUsers"
-    :sort-by="sortBy"
-    :sort-direction="sortDirection"
-    @sort="onSort"
-  />
+    <UserTable
+      :users="paginatedUsers"
+      :sort-by="sortBy"
+      :sort-direction="sortDirection"
+      @sort="onSort"
+    />
 
-  <div class="pagination">
-    <button :disabled="page <= 1" @click="page--">Prev</button>
-
-    <span>{{ page }} / {{ totalPages }}</span>
-
-    <button :disabled="page >= totalPages" @click="page++">Next</button>
+    <BasePagination v-model:page="page" :total-pages="totalPages" />
   </div>
 </template>
 
@@ -29,6 +25,7 @@ import { users } from '~/data/users'
 import { useUsersTable, type SortField } from '~/composables/useUsersTable'
 import type { UserRole } from '~/models/user'
 import { DEFAULT_PAGINATION_PAGE } from '~/contants/pagination.ts'
+import BasePagination from '~/components/BasePagination.vue'
 
 const { search, role, sortBy, sortDirection, page, perPage, paginatedUsers, totalPages } =
   useUsersTable(users)
@@ -59,11 +56,13 @@ const onChangeRole = (r: UserRole | null) => {
 }
 </script>
 
-<style scoped>
-.pagination {
-  margin-top: 12px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
+<style lang="scss" scoped>
+.container {
+  max-width: 1000px;
+  margin: 32px auto;
+  padding: $spacing-lg;
+  background-color: #fff;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
 }
 </style>

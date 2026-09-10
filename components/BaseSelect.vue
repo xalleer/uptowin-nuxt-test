@@ -18,8 +18,19 @@ defineProps<{
 const model = defineModel<T | null>({ default: null })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .select {
-  padding: 6px;
+  padding: 8px 12px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-sm;
+  background-color: #fff;
+  color: $text-color;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    border-color: $primary-color;
+  }
 }
 </style>

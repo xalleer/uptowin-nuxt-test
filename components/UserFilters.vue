@@ -1,6 +1,6 @@
 <template>
   <div class="filters">
-    <input v-model="searchInput" placeholder="Search by name or email" />
+    <input v-model="searchInput" class="input" placeholder="Search by name or email..." />
 
     <BaseSelect
       :model-value="role"
@@ -56,10 +56,23 @@ watch(
 )
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .filters {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  .input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    font-size: 14px;
+    outline: none;
+
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
 }
 </style>
