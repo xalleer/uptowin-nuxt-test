@@ -61,9 +61,9 @@ defineEmits<{
 .table-wrapper {
   max-height: 420px;
   overflow: auto;
-  border: 1px solid $border-color;
+  border: 1px solid var(--border-color, $border-color);
   border-radius: $border-radius-sm;
-  background-color: #fff;
+  background-color: var(--card-bg, #fff);
 }
 
 .user-table {
@@ -75,23 +75,23 @@ defineEmits<{
   th,
   td {
     padding: 10px 14px;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid var(--border-color, $border-color);
+    color: var(--text-color, $text-color);
   }
 
   thead th {
     position: sticky;
     top: 0;
     z-index: 1;
-    background-color: #f8fafc;
+    background-color: var(--hover-bg, #f8fafc);
     font-weight: 600;
-    color: $text-color;
 
     &.sortable {
       cursor: pointer;
       user-select: none;
 
       &:hover {
-        background-color: #f1f5f9;
+        opacity: 0.85;
       }
     }
   }
@@ -102,7 +102,7 @@ defineEmits<{
     }
 
     &:hover {
-      background-color: #f8fafc;
+      background-color: var(--hover-bg, #f8fafc);
     }
   }
 
@@ -118,7 +118,7 @@ defineEmits<{
 
   .empty-row {
     text-align: center;
-    color: $secondary-color;
+    color: var(--text-muted, $secondary-color);
     padding: 24px;
   }
 }

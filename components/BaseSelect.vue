@@ -21,10 +21,10 @@ const model = defineModel<T | null>({ default: null })
 <style lang="scss" scoped>
 .select {
   padding: 8px 12px;
-  border: 1px solid $border-color;
+  border: 1px solid var(--border-color, $border-color);
   border-radius: $border-radius-sm;
-  background-color: #fff;
-  color: $text-color;
+  background-color: var(--input-bg, #fff);
+  color: var(--text-color, $text-color);
   font-size: 14px;
   outline: none;
   cursor: pointer;

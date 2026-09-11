@@ -1,75 +1,41 @@
-# Nuxt Minimal Starter
+# Nuxt 3 Users Management Table
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Live Demo: https://uptowin-nuxt-test.vercel.app/
 
-## Setup
+Тестове завдання на Nuxt 3 для відображення та управління таблицею користувачів. Проєкт реалізовано на основі наданого стартового шаблону.
 
-Make sure to install dependencies:
+## Що зроблено
+
+- Написано логіку фільтрації (пошук за ім'ям/email та вибір ролі), сортування (вік та дата створення) і пагінації у composable `useUsersTable.ts`.
+- Налаштовано збереження стану в URL query-параметрах. При перезавантаженні сторінки всі фільтри, сортування та поточна сторінка зберігаються.
+- Переведено проєкт на TypeScript, додано типи користувачів та ролей.
+- Винесено компонент пагінації `BasePagination.vue` та додано debounce (300мс) для вводу в пошук.
+- Налаштовано інструменти якості коду: ESLint, Prettier та Husky (pre-commit хуки).
+- Написано охайні SCSS-стилі та зроблено фіксовану шапку таблиці (sticky header) при скролі.
+- Додано простий перемикач темної та світлої теми з збереженням у localStorage.
+
+## Чому саме такі рішення
+
+- **Без Pinia:** Головним джерелом правди для таблиці є URL query-параметри. Вся логіка зручно ізольована в composable, тому додавати Pinia не було потреби.
+- **Без Tailwind та UI-бібліотек:** Стилі написані на SCSS з використанням змінних і міксинів, щоб не перевантажувати проєкт зайвими залежностями та зберегти мінімальний розмір бандлу.
+
+## Використання AI
+
+Штучний інтелект використовувався як асистент та валідатор:
+
+- Перевірити оптимізацію коду та крайні випадки.
+- Спитати про можливе рішення та зрозуміти, чому краще обрати той чи інший підхід.
+- Прискорити виконання дрібних рутинних задач.
+
+## Запуск проєкту
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
+# Встановлення залежностей
 bun install
-```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
+# Запуск dev-сервера
 bun run dev
-```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
+# Збірка
 bun run build
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

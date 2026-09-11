@@ -38,18 +38,17 @@ const updatePage = (direction: 'prev' | 'next') => {
 
   &__button {
     padding: 6px 14px;
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color, $border-color);
     border-radius: $border-radius-sm;
-    background-color: #fff;
-    color: $text-color;
+    background-color: var(--card-bg, #fff);
+    color: var(--text-color, $text-color);
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s ease;
 
     &:hover:not(:disabled) {
-      background-color: $background-color;
-      border-color: $secondary-color;
+      background-color: var(--hover-bg, $background-color);
     }
 
     &:disabled {
@@ -60,7 +59,7 @@ const updatePage = (direction: 'prev' | 'next') => {
 
   &__info {
     font-size: 14px;
-    color: $text-color;
+    color: var(--text-color, $text-color);
     font-weight: 500;
   }
 }

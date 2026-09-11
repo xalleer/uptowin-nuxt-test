@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <div class="header">
+      <h1 class="title">Users List</h1>
+      <ThemeToggle />
+    </div>
+
     <UserFilters
       :search="search"
       :role="role"
@@ -26,6 +31,7 @@ import { useUsersTable, type SortField } from '~/composables/useUsersTable'
 import type { UserRole } from '~/models/user'
 import { DEFAULT_PAGINATION_PAGE } from '~/contants/pagination.ts'
 import BasePagination from '~/components/BasePagination.vue'
+import ThemeToggle from '~/components/ThemeToggle.vue'
 
 const { search, role, sortBy, sortDirection, page, perPage, paginatedUsers, totalPages } =
   useUsersTable(users)
@@ -61,8 +67,22 @@ const onChangeRole = (r: UserRole | null) => {
   max-width: 1000px;
   margin: 32px auto;
   padding: $spacing-lg;
-  background-color: #fff;
-  border: 1px solid $border-color;
+  background-color: var(--card-bg, #fff);
+  border: 1px solid var(--border-color, $border-color);
   border-radius: $border-radius-md;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.header {
+  @include flex-between;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color, $text-color);
 }
 </style>

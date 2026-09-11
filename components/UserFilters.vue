@@ -65,8 +65,10 @@ watch(
   .input {
     flex: 1;
     padding: 8px 12px;
-    border: 1px solid $border-color;
+    border: 1px solid var(--border-color, $border-color);
     border-radius: $border-radius-sm;
+    background-color: var(--input-bg, #fff);
+    color: var(--text-color, #0f172a);
     font-size: 14px;
     outline: none;
 
